@@ -2,112 +2,124 @@
 new_page_extension: md
 auto_deploy: false
 admin_path: admin
-webhook_url: 'https://dev-api.stackbit.com/project/5d4c2b5cbbe7ce0010d8e906/webhook/forestry'
+webhook_url: https://dev-api.stackbit.com/project/5d4c2b5cbbe7ce0010d8e906/webhook/forestry
 sections:
-  - type: document
-    label: Config
-    path: _config.yml
-    templates:
-      - config
-  - type: document
-    label: Curriculum Vitæ data
-    path: _data/cv.json
-    templates:
-      - cv
-  - type: document
-    label: Theme Data
-    path: _data/theme.yml
-    templates:
-      - theme
-  - type: directory
-    path: ''
-    match: '**/*cv.md'
-    label: Curriculum Vitæ Page
-    create: all
-    templates:
-      - cvpage
-  - type: directory
-    path: ''
-    match: '**/*about.md'
-    label: About Page
-    create: all
-    templates:
-      - about
-  - type: document
-    label: Categories Page
-    path: '{categories.md,example/categories.md,docs/categories.md}'
-    templates:
-      - categories
-  - type: document
-    label: Home Page
-    path: index.html
-    templates:
-      - home
-  - type: directory
-    path: ''
-    match: '**/*404.md'
-    label: Page
-    create: all
-    templates:
-      - notfound
-  - type: directory
-    path: '{_posts,example/_posts,docs/_posts}'
-    match: '**/*'
-    label: Post
-    create: all
-    templates:
-      - post
-  - type: document
-    label: Posts
-    path: '{posts.md,example/posts.md,docs/posts.md}'
-    templates:
-      - posts
-  - type: document
-    label: Tags
-    path: '{tags.md,example/tags.md,docs/tags.md}'
-    templates:
-      - tags
-  - type: directory
-    path: ''
-    match: '**/**/_tags/**'
-    exclude: >-
-      {_posts/**,_recipes/**,example/_posts/**,example/_recipes/**,docs/_posts/**,docs/_recipes/**}
-    label: Tag
-    create: all
-    templates:
-      - tag
-  - type: directory
-    path: ''
-    match: '**/**/_collections/**'
-    label: Collection
-    create: all
-    templates:
-      - collection
-  - type: directory
-    path: ''
-    match: '**/**/_categories/**'
-    exclude: >-
-      {_posts/**,_recipes/**,example/_posts/**,example/_recipes/**,docs/_posts/**,docs/_recipes/**,**/*404.md,**/*cv.md,**/*recipes.md,**/*about.md}
-    label: Category
-    create: all
-    templates:
-      - category
-  - type: directory
-    path: '{_recipes,example/_recipes,docs/_recipes}'
-    match: '**/*'
-    label: Recipe
-    create: all
-    templates:
-      - recipe
-  - type: directory
-    path: '{.github}'
-    match: '**/*'
-    label: Misc
-    create: all
-    templates:
-      - misc
+- type: document
+  path: _config.yml
+  label: Config
+  templates:
+  - config
+- type: document
+  path: _data/cv.json
+  label: Curriculum Vitæ data
+  templates:
+  - cv
+- type: document
+  path: _data/theme.yml
+  label: Theme Data
+  templates:
+  - theme
+- type: directory
+  path: ''
+  label: Curriculum Vitæ Page
+  create: all
+  match: "**/*cv.md"
+  templates:
+  - cvpage
+- type: directory
+  path: ''
+  label: About Page
+  create: all
+  match: "**/*about.md"
+  templates:
+  - about
+- type: document
+  path: "{categories.md,example/categories.md,docs/categories.md}"
+  label: Categories Page
+  templates:
+  - categories
+- type: document
+  path: index.html
+  label: Home Page
+  templates:
+  - home
+- type: directory
+  path: ''
+  label: Page
+  create: all
+  match: "**/*404.md"
+  templates:
+  - notfound
+- type: directory
+  path: "{_posts,example/_posts,docs/_posts}"
+  label: Post
+  create: all
+  match: "**/*"
+  templates:
+  - post
+- type: document
+  path: "{posts.md,example/posts.md,docs/posts.md}"
+  label: Posts
+  templates:
+  - posts
+- type: document
+  path: "{tags.md,example/tags.md,docs/tags.md}"
+  label: Tags
+  templates:
+  - tags
+- type: directory
+  path: ''
+  label: Tag
+  create: all
+  match: "**/**/_tags/**"
+  exclude: "{_posts/**,_recipes/**,example/_posts/**,example/_recipes/**,docs/_posts/**,docs/_recipes/**}"
+  templates:
+  - tag
+- type: directory
+  path: ''
+  label: Collection
+  create: all
+  match: "**/**/_collections/**"
+  templates:
+  - collection
+- type: directory
+  path: ''
+  label: Category
+  create: all
+  match: "**/**/_categories/**"
+  exclude: "{_posts/**,_recipes/**,example/_posts/**,example/_recipes/**,docs/_posts/**,docs/_recipes/**,**/*404.md,**/*cv.md,**/*recipes.md,**/*about.md}"
+  templates:
+  - category
+- type: directory
+  path: "{_recipes,example/_recipes,docs/_recipes}"
+  label: Recipe
+  create: all
+  match: "**/*"
+  templates:
+  - recipe
+- type: directory
+  path: "{.github}"
+  label: Misc
+  create: all
+  match: "**/*"
+  templates:
+  - misc
 upload_dir: images
-public_path: /images
+public_path: "/images"
 front_matter_path: ''
 use_front_matter_path: false
-file_template: ':filename:'
+file_template: ":filename:"
+build:
+  preview_command: bundle exec jekyll build --drafts --unpublished --future -d _site
+  publish_command: bundle exec jekyll build -d _site
+  preview_env:
+  - JEKYLL_ENV=staging
+  publish_env:
+  - JEKYLL_ENV=production
+  preview_output_directory: _site
+  output_directory: _site
+  instant_preview_command: bundle exec jekyll serve --drafts --unpublished --future
+    --port 8080 --host 0.0.0.0 -d _site
+  install_dependencies_command: bundle install --path vendor/bundle
+  preview_docker_image: forestryio/ruby:2.6
+  mount_path: "/srv"
